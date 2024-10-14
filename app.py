@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import dash
 from dash import dcc
 from dash import html
@@ -21,12 +23,21 @@ app.config.suppress_callback_exceptions = True
 
 # Load data from csv
 def load_data():
-    # To do: Completar la función 
+    # Cargar los datos desde el archivo CSV
+    df = pd.read_csv('datos_energia.csv')
+
+    # Asegurarse de que la columna de fecha esté en formato datetime
+    df['time'] = pd.to_datetime(df['time'])
+    
+    # Establecer la columna de fecha como índice del DataFrame
+    df.set_index('time', inplace=True)
+    
+    return df
     
 
 # Cargar datos
 data = load_data()
-
+     
 # Graficar serie
 def plot_series(data, initial_date, proy):
     data_plot = data.loc[initial_date:]
